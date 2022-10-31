@@ -7,7 +7,11 @@ namespace App;
 use App\Kata1\Discount;
 use App\Kata1\Price;
 use App\Kata1\Shipping;
+use App\Kata2\FreeShippingCalculator;
+use App\Kata2\PriceCalculator;
 use App\Kata2\PriceCalculatorInterface;
+use App\Kata4\DPDPriceCalculatorAdapter;
+use App\Kata4\DpdShippingProvider;
 
 class DemoRun
 {
@@ -19,38 +23,30 @@ class DemoRun
         // discount = 20;
         // new Price(100);
 
-        //change me!!!
-        return 88;
+        return (new Shipping(8, new Discount(20, new Price(100))))->cost();
     }
 
     public function kata2(PriceCalculatorInterface $calculator)
     {
-        // shipping = 8;
-        // discount = 20;
-        // new Price(100);
-
-        //oh, no! what a crap, change me now!
-        return 88;
+        return $calculator->calculate(100, 20, 8);
     }
 
     public function kata3()
     {
-        // shipping = 8;
-        // discount = 20;
-        // new Price(100);
-
-        //OMG ¯\_(ツ)_/¯ , don't be lazy, change me
-        return 80;
+        $priceCalculator = new PriceCalculator();
+        if ($this->isTuesday()) {
+            $priceCalculator = new FreeShippingCalculator();
+        }
+        return $priceCalculator->calculate(100, 20, 8);
     }
 
-    public function kata4()
+    public function kata4(string $providerName)
     {
-        // shipping = 8;
-        // discount = 20;
-        // new Price(100);
-
-        //OMG ¯\_(ツ)_/¯ , don't be lazy, change me
-        return 84;
+        $priceCalculator = new PriceCalculator();
+        if ($providerName === 'dpd') {
+            $priceCalculator = new DPDPriceCalculatorAdapter(new DpdShippingProvider());
+        }
+        return $priceCalculator->calculate(100, 20, 8);
     }
 
     /**
