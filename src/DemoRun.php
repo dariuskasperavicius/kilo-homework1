@@ -7,9 +7,9 @@ namespace App;
 use App\Kata1\Discount;
 use App\Kata1\Price;
 use App\Kata1\Shipping;
-use App\Kata2\FreeShippingCalculator;
 use App\Kata2\PriceCalculator;
 use App\Kata2\PriceCalculatorInterface;
+use App\Kata3\DiscountStrategy;
 use App\Kata4\DPDPriceCalculatorAdapter;
 use App\Kata4\DpdShippingProvider;
 
@@ -33,11 +33,7 @@ class DemoRun
 
     public function kata3()
     {
-        $priceCalculator = new PriceCalculator();
-        if ($this->isTuesday()) {
-            $priceCalculator = new FreeShippingCalculator();
-        }
-        return $priceCalculator->calculate(100, 20, 8);
+        return (new DiscountStrategy($this->isTuesday()))->calculate(100, 20, 8);
     }
 
     public function kata4(string $providerName)

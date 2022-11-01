@@ -31,8 +31,14 @@ class DemoRunTest extends TestCase
 
     public function testKata3(): void
     {
-        $this->runner->setIsTuesday(true);
-        $this->assertEquals(80, $this->runner->kata3());
+        $this->runner->setIsTuesday(false);
+        $this->assertEquals(88, $this->runner->kata3());
+    }
+
+    public function testKata3NotTuesday(): void
+    {
+        $this->runner->setIsTuesday(false);
+        $this->assertEquals(88, $this->runner->kata3());
     }
 
     public function testKata4(): void
